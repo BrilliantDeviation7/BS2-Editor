@@ -32,7 +32,9 @@
 	// 	});
 	// });
 
-	import { basicSetup, EditorView } from 'codemirror';
+	import { basicSetup } from 'codemirror';
+	import { EditorView, keymap } from '@codemirror/view';
+	import { indentWithTab } from '@codemirror/commands';
 	import { onMount } from 'svelte';
 
 	let element;
@@ -45,7 +47,7 @@
 	import { syntaxHighlighting, HighlightStyle } from '@codemirror/language';
 	import { Tag, tags } from '@lezer/highlight';
 
-	import '../../assets/parallax.css';
+	// import '../../assets/parallax.css';
 
 	onMount(() => {
 		// https://codemirror.net/examples/styling/
@@ -58,10 +60,11 @@
 					color: '#DCDCAA',
 					backgroundColor: '#1f1f1f'
 				},
-				'&.cm-selectionLayer .cm-selectionBackground, ::selection': {
-					backgroundColor: 'red'
+				'.cm-selectionBackground, ::selection': {
+					backgroundColor: '#346493 !important'
 				},
 				'.cm-cursor': {
+					width: '3px',
 					backgroundColor: 'rgb(168, 168, 168)'
 				},
 				'.cm-content': {
@@ -119,6 +122,7 @@
 			doc: "'{$STAMP BS2}\n'{$PBASIC 2.5}\n\n",
 			extensions: [
 				basicSetup,
+				keymap.of([indentWithTab]),
 				theme,
 				syntaxHighlighting(customHighlightStyle),
 				new StreamLanguage(pbasic)
