@@ -137,14 +137,16 @@ https://github.com/touchifyapp/svelte-codemirror-editor, https://github.com/plut
 
 convert to ES6: https://www.reddit.com/r/sveltejs/comments/vc7cnw/require_is_not_defined/
 
-Look at [vb.js](https://github.com/codemirror/legacy-modes/blob/57e2fc9515c16e1a403f4bbb52ecff89da84f6f1/mode/vb.js#L155) in `codemirror/legacy-modes` on how to convert old PBASIC language mode for latest Codemirror version (V6). 
+Look at [vb.js](https://github.com/codemirror/legacy-modes/blob/57e2fc9515c16e1a403f4bbb52ecff89da84f6f1/mode/vb.js#L155) in `codemirror/legacy-modes` on how to convert old PBASIC language mode for latest Codemirror version (V6).
 
 V5 stuff, but I didn't really need this:
+
 - https://codemirror.net/5/demo/simplemode.html
 - https://codemirror.net/5/doc/manual.html#modeapi
 - https://snyk.io/advisor/npm-package/codemirror/functions/codemirror.defineMode
 
 disappeared v4 docs:
+
 - https://github.com/brackets-cont/brackets/wiki/CodeMirror-v4-Integration
 
 https://discuss.codemirror.net/t/example-of-using-searchcursor-regexpcursor/3785/2
@@ -164,6 +166,7 @@ https://codemirror.net/docs/ref/#language.StreamParser
 https://codemirror.net/examples/styling/
 
 Some extension issues:
+
 - https://github.com/codemirror/dev/issues/608
 - https://discuss.codemirror.net/t/uncaught-error-unrecognized-extension-value-in-extension-set-object-object-this-sometimes-happens-because-multiple-instances-of-codemirror-state-are-loaded-breaking-instanceof-checks/7898
 - https://discuss.codemirror.net/t/yet-another-unrecognized-extension-value-in-extension-set-object-object/7371
@@ -171,14 +174,13 @@ Some extension issues:
 - https://github.com/codemirror/dev/issues/666
 - https://discuss.codemirror.net/t/highlighting-that-seems-ignored-in-cm6/4320/5
 - https://github.com/codemirror/lang-liquid/issues/3
-- 
+-
 
 Look at `pbasic.js` in `parallaxinc/Parallax-IDE/src/lib/pbasic.js` for original.
 
 TODO:
 
 - use tab for indentation: https://codemirror.net/examples/tab/
-
 
 # 9/24/2024
 
@@ -190,3 +192,21 @@ changed default background, popover colors in app.css to match VScode's default 
 
 Cursor and selection background colors are still an issue.
 
+- https://discuss.codemirror.net/t/javascript-syntax-highlighting-not-working/7489/3
+- https://discuss.codemirror.net/t/line-background-color-and-selection-layering/5413
+- https://codemirror.net/examples/styling/
+
+TODO:
+storing files:
+
+- https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB
+- https://codemirror.net/docs/migration/#getting-the-document-and-selection
+- https://stackoverflow.com/questions/10285301/how-to-get-the-value-of-codemirror-textarea
+- https://github.com/MacFJA/svelte-persistent-store
+- https://www.reddit.com/r/sveltejs/comments/10locp6/sveltekit_use_local_database_in_the_browser/
+
+# 9/26/2024
+
+TODO:
+
+- In menubar, add link to documentation

@@ -8,6 +8,7 @@
 	import Navbar from '$lib/Navbar.svelte';
 	import Sidebar from '$lib/Sidebar.svelte';
 	import Editor from '$lib/editor/Editor.svelte';
+	import FileTest from '$lib/FileTest.svelte';
 
 	onMount(() => {
 		if ('serial' in navigator) {
@@ -61,14 +62,16 @@
 	<main class="flex min-h-0 grow gap-3">
 		<Sidebar />
 		<Editor />
-
-		<!-- {#if port}
-			<button on:click={closePort}>CLOSE PORT</button>
-		{:else}
-			<button on:click={choosePort}>Choose port</button>
-		{/if} -->
 	</main>
 </div>
+
+<!-- <FileTest/> -->
+
+<!-- {#if port}
+	<button on:click={closePort}>CLOSE PORT</button>
+{:else}
+	<button on:click={choosePort}>Choose port</button>
+{/if} -->
 
 <style>
 	.logo {
