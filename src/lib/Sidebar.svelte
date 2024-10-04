@@ -1,22 +1,60 @@
-<script lang="ts">
-	import { ScrollArea } from '$lib/components/ui/scroll-area/index.js';
-	import { Separator } from '$lib/components/ui/separator/index.js';
+<script>
+	import { ScrollArea } from '$lib/components/ui/scroll-area';
+	import { Separator } from '$lib/components/ui/separator';
 
-	const tags = Array.from({ length: 50 }).map((_, i, a) => `v1.2.0-beta.${a.length - i}`);
+	import { FilePlus } from 'lucide-svelte';
+
+	import { db } from './db';
+	import { liveQuery } from 'dexie';
+
+	let files = liveQuery(() => db.files.toArray());
+
+	export let currentFileName = 'file1';
+
+	export let unsavedChanges = false;
+
+	import { createEventDispatcher, onMount } from 'svelte';
+	const dispatch = createEventDispatcher();
+
+	onMount(() => {
+		console.log("rerendered sidebar")
+	})
 </script>
 
 <ScrollArea class="h-full w-48 rounded-md border">
 	<h4
-		class="sticky top-0 w-full p-2.5 font-bold leading-none shadow-lg shadow-stone-400/10 backdrop-blur-md"
+		class="sticky top-0 flex w-full items-center justify-between p-2.5 font-bold leading-none shadow-lg shadow-stone-400/10 backdrop-blur-md"
 	>
 		Files
+		<!-- TODO: prevent this dialog if current file has unsaved changes -->
+		<button
+			class="transition-transform hover:scale-110"
+			on:click={() => {
+				dispatch('createFile');
+			}}><FilePlus /></button
+		>
 	</h4>
-	{#each tags as tag}
-		<Separator />
-		<a href="/" class="block p-2 text-sm transition-colors duration-100 hover:bg-[#2a2d2e]">
-			{tag}
-		</a>
-	{/each}
+
+	{#if $files}
+		{#each $files as file (file.id)}
+			<Separator />
+			<!-- <a href="/" class="block p-2 text-sm transition-colors duration-100 hover:bg-[#2a2d2e]">
+				{file.name}
+			</a> -->
+			<button
+				on:click={() => {
+					dispatch('openFile', { name: file.name });
+				}}
+				class="block w-full p-2 text-left text-sm transition-colors duration-100 hover:bg-stone-100 dark:hover:bg-[#2a2d2e] {currentFileName ===
+				file.name
+					? 'bg-stone-200 dark:bg-[#3d3f42]'
+					: ''}"
+			>
+				{file.name + '.bs2' + (unsavedChanges && file.name === currentFileName ? '*' : '')}
+			</button>
+			<!-- TODO: add close button so we can return to temp file -->
+		{/each}
+	{/if}
 </ScrollArea>
 
 <!-- TODO: switch to SVelteKit for SPA to use links to go to specific file -->

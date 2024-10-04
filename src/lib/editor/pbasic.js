@@ -349,6 +349,7 @@ export const pbasic = {
 	},
 	token: function (stream, state) {
 		var style = tokenLexer(stream, state);
+		// console.log(style)
 
 		state.lastToken = { style: style, content: stream.current() };
 

@@ -1,11 +1,19 @@
-<script lang="ts">
+<script>
 	import * as Menubar from '$lib/components/ui/menubar';
+	import { Button } from '$lib/components/ui/button';
+
+	import { toggleMode } from 'mode-watcher';
+	import Sun from 'lucide-svelte/icons/sun';
+	import Moon from 'lucide-svelte/icons/moon';
 
 	let selectedBoard = '';
+
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
 </script>
 
-<nav>
-	<Menubar.Root>
+<nav class="flex gap-2">
+	<Menubar.Root class="grow">
 		<Menubar.Menu>
 			<Menubar.Trigger class="font-bold">BS2-IDE</Menubar.Trigger>
 			<Menubar.Content>
@@ -22,7 +30,7 @@
 				</Menubar.Item>
 				<Menubar.Separator />
 
-				<Menubar.RadioGroup value={selectedBoard}>
+				<!-- <Menubar.RadioGroup value={selectedBoard}>
 					<Menubar.RadioItem
 						on:click={() => {
 							selectedBoard = 'andy';
@@ -41,7 +49,7 @@
 						}}
 						value="Luis">Luis</Menubar.RadioItem
 					>
-				</Menubar.RadioGroup>
+				</Menubar.RadioGroup> -->
 			</Menubar.Content>
 		</Menubar.Menu>
 		<Menubar.Menu>
@@ -51,9 +59,17 @@
 					New File
 					<Menubar.Shortcut>⌘T</Menubar.Shortcut>
 				</Menubar.Item>
-				<Menubar.Item>Save</Menubar.Item>
+				<Menubar.Item
+					on:click={() => {
+						dispatch('saveFile');
+					}}>Save</Menubar.Item
+				>
 				<Menubar.Item>Save As...</Menubar.Item>
-				<Menubar.Item>Rename</Menubar.Item>
+				<Menubar.Item
+					on:click={() => {
+						dispatch('renameFile');
+					}}>Rename File</Menubar.Item
+				>
 				<Menubar.Item>Delete File</Menubar.Item>
 				<Menubar.Separator />
 				<Menubar.Item>Download to Board</Menubar.Item>
@@ -74,4 +90,13 @@
 			</Menubar.Content>
 		</Menubar.Menu>
 	</Menubar.Root>
+	<Button on:click={toggleMode} variant="outline" size="icon">
+		<Sun
+			class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
+		/>
+		<Moon
+			class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
+		/>
+		<span class="sr-only">Toggle theme</span>
+	</Button>
 </nav>

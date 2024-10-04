@@ -195,3 +195,22 @@ Cursor and selection background colors are still an issue.
 # 9/25/2024
 
 Fixed the text selection color and fixed cursor invisible.
+
+- https://discuss.codemirror.net/t/javascript-syntax-highlighting-not-working/7489/3
+- https://discuss.codemirror.net/t/line-background-color-and-selection-layering/5413
+- https://codemirror.net/examples/styling/
+
+TODO:
+storing files:
+
+- https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB
+- https://codemirror.net/docs/migration/#getting-the-document-and-selection
+- https://stackoverflow.com/questions/10285301/how-to-get-the-value-of-codemirror-textarea
+- https://github.com/MacFJA/svelte-persistent-store
+- https://www.reddit.com/r/sveltejs/comments/10locp6/sveltekit_use_local_database_in_the_browser/
+
+# 9/26/2024
+
+TODO:
+
+- In menubar, add link to documentation
