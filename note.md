@@ -120,7 +120,7 @@ Encountered issue with flex items overflowing. Fixed by setting `min-height: 0` 
 TODO:
 
 - investigate which packages need to be converted to Web Serial API
-- how to get code editor syntax highlighting?
+- ~~how to get code editor syntax highlighting?~~
 
 Should it be called "download" or "upload" to board?
 https://forum.arduino.cc/t/upload-and-download-arduino/485335
@@ -180,7 +180,7 @@ Look at `pbasic.js` in `parallaxinc/Parallax-IDE/src/lib/pbasic.js` for original
 
 TODO:
 
-- use tab for indentation: https://codemirror.net/examples/tab/
+- ~~use tab for indentation: https://codemirror.net/examples/tab/~~
 
 # 9/24/2024
 
@@ -195,6 +195,12 @@ Cursor and selection background colors are still an issue.
 # 9/25/2024
 
 Fixed the text selection color and fixed cursor invisible.
+
+Tested out how to get the value of teh written script from the code editor:
+
+`editor.state.doc.toString()` getst the value, but you can't just wrap this in {} to expect Svelte to react to it.
+
+Ok so getting teh doc into a string works. Next, I need to put this aside and learn how PWAs work. Then, I will test some form of IndexDB (look at the reddit post with svelte suggestions to use with IndexedDB). This will allow me to build a simple file system. Offer the user to actually DOWNLOAD the files also. Then we should be ready to launch.
 
 - https://discuss.codemirror.net/t/javascript-syntax-highlighting-not-working/7489/3
 - https://discuss.codemirror.net/t/line-background-color-and-selection-layering/5413

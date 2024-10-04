@@ -12,6 +12,7 @@
 	const dispatch = createEventDispatcher();
 </script>
 
+<!-- TODO: add EXAMPLES tab which creates TEMPORARY example file (but still allows you to upload the program) -->
 <nav class="flex gap-2">
 	<Menubar.Root class="grow">
 		<Menubar.Menu>
