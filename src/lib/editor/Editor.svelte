@@ -34,6 +34,10 @@
 
 	import { basicSetup, EditorView } from 'codemirror';
 	import { onMount } from 'svelte';
+	import { slide } from 'svelte/transition';
+
+	export let fileName;
+	export let content = "'{$STAMP BS2}\n'{$PBASIC 2.5}\n\n";
 
 	let element;
 	// Learned from line 184 of https://github.com/plutoniumm/sveltemirror/blob/main/src/lib/CodeMirror.svelte
@@ -46,6 +50,11 @@
 	import { Tag, tags } from '@lezer/highlight';
 
 	import '../../assets/parallax.css';
+
+	export let editor = null;
+
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
 
 	onMount(() => {
 		// https://codemirror.net/examples/styling/
@@ -115,17 +124,33 @@
 		// 	{ tag: 'etInstruction', color: 'red' }
 		// 	// { tag: tags.etInstruction, color: '#f5d', fontStyle: 'italic' }
 		// ]);
-		new EditorView({
-			doc: "'{$STAMP BS2}\n'{$PBASIC 2.5}\n\n",
+		editor = new EditorView({
+			doc: content,
 			extensions: [
 				basicSetup,
 				theme,
 				syntaxHighlighting(customHighlightStyle),
-				new StreamLanguage(pbasic)
+				new StreamLanguage(pbasic),
+				EditorView.updateListener.of((update) => {
+					// https://discuss.codemirror.net/t/codemirror-6-proper-way-to-listen-for-changes/2395/8
+					if (update.docChanged) {
+						dispatch('docChanged');
+					}
+				})
 			],
 			parent: element
 		});
 	});
 </script>
 
-<div class="h-full w-full overflow-hidden rounded-md border text-xl" bind:this={element}></div>
+<div class="relative h-full w-full overflow-hidden rounded-md border text-xl" bind:this={element}>
+	<p
+		in:slide={{ axis: 'x', duration: 500 }}
+		class="absolute right-0 z-10 rounded-bl-md bg-white px-2 py-1 font-mono text-sm text-black"
+	>
+		{fileName ? `${fileName}.bs2` : 'untitled1'}
+	</p>
+</div>
+
+<!-- TODO: save selection from before saving to preserve selection -->
+<!-- TODO: save previous file ID to keep same file open after renaming (this could be fixed by using IDs instead of name) -->

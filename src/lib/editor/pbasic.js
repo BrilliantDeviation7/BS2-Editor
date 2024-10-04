@@ -7,7 +7,7 @@ var ERRORCLASS = 'error';
 function wordRegexp(words) {
 	return new RegExp('^((' + words.join(')|(') + '))\\b', 'i');
 }
-const parserConf = {}
+const parserConf = {};
 
 function getWordRange(word, start, end, base) {
 	var words = [];
@@ -349,7 +349,7 @@ export const pbasic = {
 	},
 	token: function (stream, state) {
 		var style = tokenLexer(stream, state);
-		console.log(style)
+		// console.log(style)
 
 		state.lastToken = { style: style, content: stream.current() };
 
@@ -358,4 +358,3 @@ export const pbasic = {
 };
 
 // BASED ON vb.js
-
