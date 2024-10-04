@@ -192,6 +192,10 @@ changed default background, popover colors in app.css to match VScode's default 
 
 Cursor and selection background colors are still an issue.
 
+# 9/25/2024
+
+Fixed the text selection color and fixed cursor invisible.
+
 - https://discuss.codemirror.net/t/javascript-syntax-highlighting-not-working/7489/3
 - https://discuss.codemirror.net/t/line-background-color-and-selection-layering/5413
 - https://codemirror.net/examples/styling/

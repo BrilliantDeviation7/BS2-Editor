@@ -11,6 +11,6 @@ export default defineConfig({
 		}
 	},
 	optimizeDeps: {
-		exclude: ['codemirror', '@lezer/highlight', '@codemirror/language']
+		exclude: ['codemirror', '@lezer/highlight', '@codemirror/language', '@codemirror/view', '@codemirror/commands']
 	}
 });

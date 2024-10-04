@@ -32,7 +32,9 @@
 	// 	});
 	// });
 
-	import { basicSetup, EditorView } from 'codemirror';
+	import { basicSetup } from 'codemirror';
+	import { EditorView, keymap } from '@codemirror/view';
+	import { indentWithTab } from '@codemirror/commands';
 	import { onMount } from 'svelte';
 	import { slide } from 'svelte/transition';
 
@@ -49,7 +51,7 @@
 	import { syntaxHighlighting, HighlightStyle } from '@codemirror/language';
 	import { Tag, tags } from '@lezer/highlight';
 
-	import '../../assets/parallax.css';
+	// import '../../assets/parallax.css';
 
 	export let editor = null;
 
@@ -67,10 +69,11 @@
 					color: '#DCDCAA',
 					backgroundColor: '#1f1f1f'
 				},
-				'&.cm-selectionLayer .cm-selectionBackground, ::selection': {
-					backgroundColor: 'red'
+				'.cm-selectionBackground, ::selection': {
+					backgroundColor: '#346493 !important'
 				},
 				'.cm-cursor': {
+					width: '3px',
 					backgroundColor: 'rgb(168, 168, 168)'
 				},
 				'.cm-content': {
@@ -128,6 +131,7 @@
 			doc: content,
 			extensions: [
 				basicSetup,
+				keymap.of([indentWithTab]),
 				theme,
 				syntaxHighlighting(customHighlightStyle),
 				new StreamLanguage(pbasic),
