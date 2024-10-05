@@ -71,7 +71,11 @@
 						dispatch('renameFile');
 					}}>Rename File</Menubar.Item
 				>
-				<Menubar.Item>Delete File</Menubar.Item>
+				<Menubar.Item
+					on:click={() => {
+						dispatch('deleteFile');
+					}}>Delete File</Menubar.Item
+				>
 				<Menubar.Separator />
 				<Menubar.Item>Download to Board</Menubar.Item>
 			</Menubar.Content>

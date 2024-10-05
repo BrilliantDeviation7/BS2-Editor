@@ -108,6 +108,17 @@
 		}
 	}
 
+	async function deleteFile() {
+		if (currentFileName && $currentFile) {
+			if (confirm('Delete this file? This action cannot be undone.')) {
+				await db.files.delete($currentFile.id);
+				currentFileName = null;
+			}
+		} else {
+			toast.warning('No file selected!');
+		}
+	}
+
 	let editor = null;
 
 	import { Toaster } from '$lib/components/ui/sonner';
@@ -169,6 +180,7 @@
 			dialogOpen = true;
 			// TODO: renaming a file with unsaved changes will discard changes
 		}}
+		on:deleteFile={deleteFile}
 	/>
 
 	<main class="flex min-h-0 grow gap-3">
