@@ -105,6 +105,8 @@
 			await db.files.update($currentFile.id, {
 				name
 			});
+
+			currentFileName = name;
 		}
 	}
 

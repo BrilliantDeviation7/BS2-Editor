@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3 - October 4, 2024
+
+### Fixed
+
+- Fixed renaming a file would close the file
+
 ## 0.1.2 - October 4, 2024
 
 First deployment!
