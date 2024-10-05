@@ -60,7 +60,7 @@
 	let currentFileId = null;
 	let unsavedChanges = false;
 
-	$: currentFile = liveQuery(() => db.files.get(currentFileId));
+	$: currentFile = currentFileId ? liveQuery(() => db.files.get(currentFileId)) : null;
 
 	async function closePort() {}
 
@@ -112,8 +112,9 @@
 	async function deleteFile() {
 		if (currentFileId && $currentFile) {
 			if (confirm('Delete this file? This action cannot be undone.')) {
-				await db.files.delete($currentFile.id);
+				await db.files.delete(currentFileId);
 				currentFileId = null;
+				unsavedChanges = false;
 			}
 		} else {
 			toast.warning('No file selected!');
