@@ -121,6 +121,22 @@
 		}
 	}
 
+	async function downloadFile() {
+		const content = editor.state.doc.toString();
+
+		const blob = new Blob([content], { type: 'text/plain' });
+
+		const a = document.createElement('a');
+
+		a.href = URL.createObjectURL(blob);
+
+		a.download = $currentFile?.name ? $currentFile.name + '.bs2' : 'untitled.bs2';
+
+		document.body.appendChild(a);
+		a.click();
+		a.remove();
+	}
+
 	let editor = null;
 
 	import { Toaster } from '$lib/components/ui/sonner';
@@ -186,6 +202,7 @@
 			dialogType = 'create';
 			dialogOpen = true;
 		}}
+		on:downloadFile={downloadFile}
 	/>
 
 	<main class="flex min-h-0 grow gap-3">

@@ -104,7 +104,11 @@
 						dispatch('saveFile');
 					}}>Save</Menubar.Item
 				>
-				<Menubar.Item>Save As...</Menubar.Item>
+				<Menubar.Item
+					on:click={() => {
+						dispatch('downloadFile');
+					}}>Save As...</Menubar.Item
+				>
 				<Menubar.Item
 					on:click={() => {
 						dispatch('renameFile');
