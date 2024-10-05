@@ -1,6 +1,7 @@
 <script>
 	import * as Menubar from '$lib/components/ui/menubar';
 	import { Button } from '$lib/components/ui/button';
+	import * as Dialog from '$lib/components/ui/dialog';
 
 	import { toggleMode } from 'mode-watcher';
 	import Sun from 'lucide-svelte/icons/sun';
@@ -10,16 +11,50 @@
 
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
+
+	let infoDialogOpen = false;
+	let dialogType = 'createFile';
+
+	let dialogs = {
+		about: {
+			title: 'About',
+			description: 'The BS2 Editor is built and maintained by Kevin Zhu.'
+		},
+		help: {
+			title: 'Help',
+			description: 'To report a bug or request a feature, message brilliantdeviation7 on Discord.'
+		}
+	};
 </script>
 
 <!-- TODO: add EXAMPLES tab which creates TEMPORARY example file (but still allows you to upload the program) -->
+
+<Dialog.Root bind:open={infoDialogOpen}>
+	<Dialog.Content>
+		<Dialog.Header>
+			<Dialog.Title>{dialogs[dialogType].title}</Dialog.Title>
+			<Dialog.Description>{dialogs[dialogType].description}</Dialog.Description>
+		</Dialog.Header>
+	</Dialog.Content>
+</Dialog.Root>
+
 <nav class="flex gap-2">
 	<Menubar.Root class="grow">
 		<Menubar.Menu>
-			<Menubar.Trigger class="font-bold">BS2-IDE</Menubar.Trigger>
+			<Menubar.Trigger class="font-bold">BS2 Editor v0.1.2</Menubar.Trigger>
 			<Menubar.Content>
-				<Menubar.Item>About</Menubar.Item>
-				<Menubar.Item>Help</Menubar.Item>
+				<Menubar.Item
+					on:click={() => {
+						dialogType = 'about';
+						infoDialogOpen = true;
+					}}>About</Menubar.Item
+				>
+				<Menubar.Item
+					on:click={() => {
+						dialogType = 'help';
+						infoDialogOpen = true;
+					}}>Help</Menubar.Item
+				>
 			</Menubar.Content>
 		</Menubar.Menu>
 		<Menubar.Menu>
@@ -81,7 +116,13 @@
 					}}>Delete File</Menubar.Item
 				>
 				<Menubar.Separator />
-				<Menubar.Item>Download to Board</Menubar.Item>
+				<Menubar.Sub>
+					<Menubar.SubTrigger>Examples</Menubar.SubTrigger>
+					<Menubar.SubContent>
+						<Menubar.Item>Example 1</Menubar.Item>
+						<Menubar.Item>Example 2</Menubar.Item>
+					</Menubar.SubContent>
+				</Menubar.Sub>
 			</Menubar.Content>
 		</Menubar.Menu>
 		<Menubar.Menu>
