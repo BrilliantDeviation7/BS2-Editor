@@ -56,7 +56,11 @@
 		<Menubar.Menu>
 			<Menubar.Trigger>File</Menubar.Trigger>
 			<Menubar.Content>
-				<Menubar.Item>
+				<Menubar.Item
+					on:click={() => {
+						dispatch('createFile');
+					}}
+				>
 					New File
 					<Menubar.Shortcut>⌘T</Menubar.Shortcut>
 				</Menubar.Item>

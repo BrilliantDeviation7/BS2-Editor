@@ -124,9 +124,8 @@
 	import { Toaster } from '$lib/components/ui/sonner';
 	import { ModeWatcher } from 'mode-watcher';
 
-	import { buttonVariants } from '$lib/components/ui/button';
-
 	import * as Dialog from '$lib/components/ui/dialog';
+	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 
 	let dialogFileNameInput = '';
@@ -161,14 +160,14 @@
 
 		<!-- Make it so you can press enter using <form> and then on:submit controlled usage -->
 		<!-- https://www.bits-ui.com/docs/components/dialog#controlled-usage -->
-		<Dialog.Close
-			on:click={() => {
-				dialogs[dialogType].action(dialogFileNameInput);
-			}}
-			class={buttonVariants({ variant: 'default' })}
-		>
-			{dialogs[dialogType].title}
-		</Dialog.Close>
+		<Dialog.Footer>
+			<Button
+				on:click={() => {
+					dialogs[dialogType].action(dialogFileNameInput);
+					dialogOpen = false;
+				}}>{dialogs[dialogType].title}</Button
+			>
+		</Dialog.Footer>
 	</Dialog.Content>
 </Dialog.Root>
 
@@ -181,6 +180,10 @@
 			// TODO: renaming a file with unsaved changes will discard changes
 		}}
 		on:deleteFile={deleteFile}
+		on:createFile={() => {
+			dialogType = 'create';
+			dialogOpen = true;
+		}}
 	/>
 
 	<main class="flex min-h-0 grow gap-3">
