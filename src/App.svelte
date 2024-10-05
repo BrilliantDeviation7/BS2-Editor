@@ -57,10 +57,10 @@
 
 	import { toast } from 'svelte-sonner';
 
-	let currentFileName = null;
+	let currentFileId = null;
 	let unsavedChanges = false;
 
-	$: currentFile = liveQuery(() => db.files.where({ name: currentFileName }).first());
+	$: currentFile = liveQuery(() => db.files.get(currentFileId));
 
 	async function closePort() {}
 
@@ -77,20 +77,18 @@
 				name,
 				content: defaultContent
 			});
+			currentFileId = id;
 			toast.success(`Successfully created ${name}.bs2`);
-			// TODO: switch to "currentFileId" instead of name
 		} catch (error) {
 			console.log(error);
 			if (error.name === 'ConstraintError') {
 				toast.error('A file with the same name already exists!');
 			}
 		}
-
-		currentFileName = name;
 	}
 
 	async function saveFile() {
-		if (currentFileName && $currentFile) {
+		if (currentFileId && $currentFile) {
 			await db.files.update($currentFile.id, {
 				content: editor.state.doc.toString()
 			});
@@ -101,20 +99,21 @@
 	}
 
 	async function renameFile(name) {
-		if (currentFileName && $currentFile) {
-			await db.files.update($currentFile.id, {
-				name
-			});
+		if (currentFileId && $currentFile) {
+			const content = editor.state.doc.toString();
 
-			currentFileName = name;
+			await db.files.update($currentFile.id, {
+				name,
+				content
+			});
 		}
 	}
 
 	async function deleteFile() {
-		if (currentFileName && $currentFile) {
+		if (currentFileId && $currentFile) {
 			if (confirm('Delete this file? This action cannot be undone.')) {
 				await db.files.delete($currentFile.id);
-				currentFileName = null;
+				currentFileId = null;
 			}
 		} else {
 			toast.warning('No file selected!');
@@ -195,7 +194,6 @@
 		on:renameFile={() => {
 			dialogType = 'rename';
 			dialogOpen = true;
-			// TODO: renaming a file with unsaved changes will discard changes
 		}}
 		on:deleteFile={deleteFile}
 		on:createFile={() => {
@@ -208,15 +206,15 @@
 	<main class="flex min-h-0 grow gap-3">
 		<Sidebar
 			{unsavedChanges}
-			{currentFileName}
+			{currentFileId}
 			on:openFile={(event) => {
 				if (!unsavedChanges) {
-					currentFileName = event.detail.name;
+					currentFileId = event.detail.id;
 				} else if (
-					currentFileName !== event.detail.name &&
+					currentFileId !== event.detail.id &&
 					confirm('You have unsaved changes in this file. Discard these changes?')
 				) {
-					currentFileName = event.detail.name;
+					currentFileId = event.detail.id;
 					unsavedChanges = false;
 				}
 			}}
@@ -228,7 +226,7 @@
 		<!-- PASS $currentFile straight into Editor component and let editor component handle it. -->
 		{#key $currentFile}
 			<Editor
-				fileName={currentFileName}
+				fileName={$currentFile?.name}
 				content={$currentFile?.content}
 				bind:editor
 				on:docChanged={() => {

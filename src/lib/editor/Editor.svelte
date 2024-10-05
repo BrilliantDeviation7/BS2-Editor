@@ -157,4 +157,3 @@
 </div>
 
 <!-- TODO: save selection from before saving to preserve selection -->
-<!-- TODO: save previous file ID to keep same file open after renaming (this could be fixed by using IDs instead of name) -->

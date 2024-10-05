@@ -9,16 +9,12 @@
 
 	let files = liveQuery(() => db.files.toArray());
 
-	export let currentFileName = 'file1';
+	export let currentFileId = null;
 
 	export let unsavedChanges = false;
 
 	import { createEventDispatcher, onMount } from 'svelte';
 	const dispatch = createEventDispatcher();
-
-	onMount(() => {
-		console.log("rerendered sidebar")
-	})
 </script>
 
 <ScrollArea class="h-full w-48 rounded-md border">
@@ -43,14 +39,14 @@
 			</a> -->
 			<button
 				on:click={() => {
-					dispatch('openFile', { name: file.name });
+					dispatch('openFile', { id: file.id });
 				}}
-				class="block w-full p-2 text-left text-sm transition-colors duration-100 hover:bg-stone-100 dark:hover:bg-[#2a2d2e] {currentFileName ===
-				file.name
+				class="block w-full p-2 text-left text-sm transition-colors duration-100 hover:bg-stone-100 dark:hover:bg-[#2a2d2e] {currentFileId ===
+				file.id
 					? 'bg-stone-200 dark:bg-[#3d3f42]'
 					: ''}"
 			>
-				{file.name + '.bs2' + (unsavedChanges && file.name === currentFileName ? '*' : '')}
+				{file.name + '.bs2' + (unsavedChanges && file.id === currentFileId ? '*' : '')}
 			</button>
 			<!-- TODO: add close button so we can return to temp file -->
 		{/each}
