@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.0 - October 5, 2024
+
+### Added
+
+- Implemented "Save as..." File action (downloads file to computer)
+
+### Fixed
+
+- Fixed renaming a file with unsaved changes would discard changes
+  - Changed to using primary key instead of file name to track current file
+- Fixed deleting a file would not update the UI correctly
+
 ## 0.1.3 - October 4, 2024
 
 ### Fixed
