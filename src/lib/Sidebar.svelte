@@ -27,7 +27,7 @@
 			class="transition-transform hover:scale-110"
 			on:click={() => {
 				dispatch('createFile');
-			}}><FilePlus /></button
+			}}><FilePlus class="size-5" /></button
 		>
 	</h4>
 
