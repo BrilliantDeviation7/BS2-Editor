@@ -1,8 +1,9 @@
 <script>
 	import { onMount } from 'svelte';
 
-	import { Play, Pause, Power } from 'lucide-svelte';
+	import { Play, Pause, Power, ArrowDownToDot } from 'lucide-svelte';
 	import { Button } from '$lib/components/ui/button';
+	import * as Tooltip from '$lib/components/ui/tooltip';
 	import { toast } from 'svelte-sonner';
 
 	import { accessControl } from '$lib/stores';
@@ -72,6 +73,7 @@
 			return;
 		}
 		debugText = debugText.concat(new TextDecoder().decode(value));
+		scrollToBottom();
 	}
 
 	function handleDebugClick() {
@@ -98,6 +100,17 @@
 	function clearTerminal() {
 		debugText = '';
 	}
+
+	let terminal;
+	let autoscroll = true;
+
+	function scrollToBottom() {
+		if (autoscroll) {
+			setTimeout(() => {
+				terminal.scrollTop = terminal.scrollHeight;
+			}, 100);
+		}
+	}
 </script>
 
 <div class="flex grow flex-col justify-center overflow-hidden">
@@ -106,9 +119,27 @@
 			<Power class="-ml-1 mr-2 {getStatusColor($accessControl)}" />
 			Debug Terminal
 		</Button>
+		<Tooltip.Root openDelay={500}>
+			<Tooltip.Trigger asChild let:builder>
+				<Button
+					builders={[builder]}
+					class="select-none"
+					variant="outline"
+					on:click={() => {
+						autoscroll = !autoscroll;
+					}}
+				>
+					<ArrowDownToDot class="-mx-2 {autoscroll ? 'text-sky-500' : 'text-stone-300'}" />
+				</Button>
+			</Tooltip.Trigger>
+			<Tooltip.Content>
+				<p class="select-none">Autoscroll</p>
+			</Tooltip.Content>
+		</Tooltip.Root>
 		<Button class="select-none" on:click={clearTerminal} variant="ghost">Clear</Button>
 	</div>
 	<div
+		bind:this={terminal}
 		class="mt-2 h-full overflow-y-scroll rounded-md border bg-stone-100 px-2 py-1 font-mono text-sm dark:bg-background"
 	>
 		{#each debugText.split('\r') as line, index}

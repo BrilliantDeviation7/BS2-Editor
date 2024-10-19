@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.3.1 - October 19, 2024
+
+### Changes
+
+- New fonts
+
+### Fixed
+
+- Icon sizing
+- Terminal not autoscrolling
+
 ## 0.3.0 - October 18, 2024
 
 ### Added
