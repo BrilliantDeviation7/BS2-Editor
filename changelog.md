@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.3.0 - October 18, 2024
+
+### Added
+
+- Implemented serial connection
+  - Compile and flash code to board
+  - Enable compile and upload hotkey
+
+### Changes
+
+- Navbar changes to reflect currently available features
+
 ## 0.2.0 - October 5, 2024
 
 ### Added

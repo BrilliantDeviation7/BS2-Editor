@@ -1,7 +1,7 @@
 {
   "name": "neo-bs2-ide",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,6 +11,8 @@
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^3.1.1",
     "autoprefixer": "^10.4.20",
+    "lucide-svelte": "^0.445.0",
+    "paneforge": "^0.0.6",
     "prettier": "3.3.3",
     "prettier-plugin-svelte": "3.2.6",
     "prettier-plugin-tailwindcss": "0.6.6",
@@ -24,11 +26,13 @@
     "@codemirror/view": "^6.34.0",
     "@lezer/highlight": "^1.2.1",
     "bits-ui": "^0.21.16",
+    "buffer": "^6.0.3",
     "clsx": "^2.1.1",
     "codemirror": "^6.0.1",
     "dexie": "^4.0.8",
-    "lucide-svelte": "^0.445.0",
+    "hotkeys-js": "^3.13.7",
     "mode-watcher": "^0.4.1",
+    "pbasic-tokenizer": "^0.3.0",
     "svelte-sonner": "^0.3.28",
     "tailwind-merge": "^2.5.2",
     "tailwind-variants": "^0.2.1"

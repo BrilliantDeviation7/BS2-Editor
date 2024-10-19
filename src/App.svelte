@@ -7,49 +7,9 @@
 	import Navbar from '$lib/Navbar.svelte';
 	import Sidebar from '$lib/Sidebar.svelte';
 	import Editor from '$lib/editor/Editor.svelte';
-
-	onMount(() => {
-		if ('serial' in navigator) {
-			console.log('Web SERIAL API supported!');
-		} else {
-			console.log('not supported');
-		}
-	});
+	import Board from '$lib/Board.svelte';
 
 	let port = null;
-
-	async function choosePort() {
-		if ('serial' in navigator) {
-			try {
-				port = await navigator.serial.requestPort();
-				console.log(port);
-
-				await port.open({
-					baudRate: 9600
-				});
-
-				const textDecoder = new TextDecoderStream();
-				const readableStreamClosed = port.readable.pipeTo(textDecoder.writable);
-				const reader = textDecoder.readable
-					.pipeThrough(new TransformStream(new LineBreakTransformer()))
-					.getReader();
-
-				// Listen to data coming from the serial device.
-				while (true) {
-					const { value, done } = await reader.read();
-					if (done) {
-						// Allow the serial port to be closed later.
-						reader.releaseLock();
-						break;
-					}
-					// value is a string.
-					console.log(value);
-				}
-			} catch (err) {
-				console.log(err);
-			}
-		}
-	}
 
 	import { db } from '$lib/db';
 	import { liveQuery } from 'dexie';
@@ -60,11 +20,16 @@
 	let currentFileId = null;
 	let unsavedChanges = false;
 
-	$: currentFile = currentFileId ? liveQuery(() => db.files.get(currentFileId)) : null;
-
-	async function closePort() {}
+	import { code } from '$lib/stores';
 
 	const defaultContent = "'{$STAMP BS2}\n'{$PBASIC 2.5}\n\n";
+
+	$: currentFile = currentFileId ? liveQuery(() => db.files.get(currentFileId)) : null;
+	$: if ($currentFile) {
+		$code = $currentFile.content;
+	} else {
+		$code = defaultContent;
+	}
 
 	async function createFile(name) {
 		if (name.length < 1) {
@@ -142,6 +107,7 @@
 	import { Toaster } from '$lib/components/ui/sonner';
 	import { ModeWatcher } from 'mode-watcher';
 
+	import * as Resizable from '$lib/components/ui/resizable';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
@@ -166,7 +132,7 @@
 </script>
 
 <ModeWatcher />
-<Toaster richColors />
+<Toaster richColors position="bottom-center" />
 
 <Dialog.Root bind:open={dialogOpen}>
 	<Dialog.Content>
@@ -225,39 +191,24 @@
 			}}
 		/>
 		<!-- PASS $currentFile straight into Editor component and let editor component handle it. -->
-		{#key $currentFile}
-			<Editor
-				fileName={$currentFile?.name}
-				content={$currentFile?.content}
-				bind:editor
-				on:docChanged={() => {
-					unsavedChanges = true;
-				}}
-			/>
-		{/key}
+		<Resizable.PaneGroup direction="vertical">
+			<Resizable.Pane class="min-h-32">
+				{#key $currentFile}
+					<Editor
+						fileName={$currentFile?.name}
+						content={$currentFile?.content}
+						bind:editor
+						on:docChanged={() => {
+							unsavedChanges = true;
+							$code = editor.state.doc.toString();
+						}}
+					/>
+				{/key}
+			</Resizable.Pane>
+			<Resizable.Handle withHandle class="my-2" />
+			<Resizable.Pane class="flex min-h-32 flex-col md:min-h-20" defaultSize={10}>
+				<Board />
+			</Resizable.Pane>
+		</Resizable.PaneGroup>
 	</main>
 </div>
-
-<!-- {#if port}
-	<button on:click={closePort}>CLOSE PORT</button>
-{:else}
-	<button on:click={choosePort}>Choose port</button>
-{/if} -->
-
-<style>
-	.logo {
-		height: 6em;
-		padding: 1.5em;
-		will-change: filter;
-		transition: filter 300ms;
-	}
-	.logo:hover {
-		filter: drop-shadow(0 0 2em #646cffaa);
-	}
-	.logo.svelte:hover {
-		filter: drop-shadow(0 0 2em #ff3e00aa);
-	}
-	.read-the-docs {
-		color: #888;
-	}
-</style>

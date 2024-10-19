@@ -18,7 +18,8 @@
 	let dialogs = {
 		about: {
 			title: 'About',
-			description: 'The BS2 Editor is built and maintained by Kevin Zhu.'
+			description:
+				'The BS2 Editor is maintained by Kevin Zhu and built with Vite + Svelte, Tailwind CSS, and shadcn-svelte. The compilation and flash functionality is based on the open-source Skewax IDE.'
 		},
 		help: {
 			title: 'Help',
@@ -41,7 +42,7 @@
 <nav class="flex gap-2">
 	<Menubar.Root class="grow">
 		<Menubar.Menu>
-			<Menubar.Trigger class="font-bold">BS2 Editor v0.2.0</Menubar.Trigger>
+			<Menubar.Trigger class="font-bold">BS2 Editor v0.3.0</Menubar.Trigger>
 			<Menubar.Content>
 				<Menubar.Item
 					on:click={() => {
@@ -49,15 +50,15 @@
 						infoDialogOpen = true;
 					}}>About</Menubar.Item
 				>
-				<Menubar.Item
+				<!-- <Menubar.Item
 					on:click={() => {
 						dialogType = 'help';
 						infoDialogOpen = true;
 					}}>Help</Menubar.Item
-				>
+				> -->
 			</Menubar.Content>
 		</Menubar.Menu>
-		<Menubar.Menu>
+		<!-- <Menubar.Menu>
 			<Menubar.Trigger>Board</Menubar.Trigger>
 			<Menubar.Content>
 				<Menubar.Item>
@@ -66,7 +67,7 @@
 				</Menubar.Item>
 				<Menubar.Separator />
 
-				<!-- <Menubar.RadioGroup value={selectedBoard}>
+				<Menubar.RadioGroup value={selectedBoard}>
 					<Menubar.RadioItem
 						on:click={() => {
 							selectedBoard = 'andy';
@@ -85,9 +86,9 @@
 						}}
 						value="Luis">Luis</Menubar.RadioItem
 					>
-				</Menubar.RadioGroup> -->
+				</Menubar.RadioGroup>
 			</Menubar.Content>
-		</Menubar.Menu>
+		</Menubar.Menu> -->
 		<Menubar.Menu>
 			<Menubar.Trigger>File</Menubar.Trigger>
 			<Menubar.Content>
@@ -107,7 +108,7 @@
 				<Menubar.Item
 					on:click={() => {
 						dispatch('downloadFile');
-					}}>Save As...</Menubar.Item
+					}}>Download</Menubar.Item
 				>
 				<Menubar.Item
 					on:click={() => {
@@ -119,17 +120,17 @@
 						dispatch('deleteFile');
 					}}>Delete File</Menubar.Item
 				>
-				<Menubar.Separator />
-				<Menubar.Sub>
+				<!-- <Menubar.Separator /> -->
+				<!-- <Menubar.Sub>
 					<Menubar.SubTrigger>Examples</Menubar.SubTrigger>
 					<Menubar.SubContent>
 						<Menubar.Item>Example 1</Menubar.Item>
 						<Menubar.Item>Example 2</Menubar.Item>
 					</Menubar.SubContent>
-				</Menubar.Sub>
+				</Menubar.Sub> -->
 			</Menubar.Content>
 		</Menubar.Menu>
-		<Menubar.Menu>
+		<!-- <Menubar.Menu>
 			<Menubar.Trigger>Edit</Menubar.Trigger>
 			<Menubar.Content>
 				<Menubar.Item>Format</Menubar.Item>
@@ -142,7 +143,7 @@
 					</Menubar.SubContent>
 				</Menubar.Sub>
 			</Menubar.Content>
-		</Menubar.Menu>
+		</Menubar.Menu> -->
 	</Menubar.Root>
 	<Button on:click={toggleMode} variant="outline" size="icon">
 		<Sun
