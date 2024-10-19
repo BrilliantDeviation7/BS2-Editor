@@ -150,7 +150,7 @@
 <div class="relative h-full w-full overflow-hidden rounded-md border text-xl" bind:this={element}>
 	<p
 		in:slide={{ axis: 'x', duration: 500 }}
-		class="absolute right-0 z-10 rounded-bl-md bg-white px-2 py-1 font-mono text-sm text-black"
+		class="absolute right-0 z-10 text-nowrap rounded-bl-md bg-white px-2 py-1 font-mono text-sm text-black"
 	>
 		{fileName ? `${fileName}.bs2` : 'untitled1'}
 	</p>
