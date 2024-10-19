@@ -11,6 +11,7 @@
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^3.1.1",
     "autoprefixer": "^10.4.20",
+    "bits-ui": "^0.21.16",
     "lucide-svelte": "^0.445.0",
     "paneforge": "^0.0.6",
     "prettier": "3.3.3",
@@ -25,8 +26,8 @@
     "@codemirror/language": "^6.10.3",
     "@codemirror/view": "^6.34.0",
     "@fontsource-variable/manrope": "^5.1.0",
+    "@fontsource/dm-mono": "^5.1.0",
     "@lezer/highlight": "^1.2.1",
-    "bits-ui": "^0.21.16",
     "buffer": "^6.0.3",
     "clsx": "^2.1.1",
     "codemirror": "^6.0.1",
