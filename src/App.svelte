@@ -33,6 +33,13 @@
 		$code = defaultContent;
 	}
 
+	function openCreateDialog() {
+		if (confirm('You have unsaved changes. Create new file without saving this file?')) {
+			dialogType = 'create';
+			dialogOpen = true;
+		}
+	}
+
 	async function createFile(name) {
 		if (name.length < 1) {
 			toast.error('File name cannot be empty!');
@@ -116,8 +123,7 @@
 
 	let dialogFileNameInput = '';
 	let dialogOpen = false;
-
-	let dialogType = 'createFile';
+	let dialogType = 'create';
 
 	let dialogs = {
 		create: {
@@ -165,10 +171,7 @@
 			dialogOpen = true;
 		}}
 		on:deleteFile={deleteFile}
-		on:createFile={() => {
-			dialogType = 'create';
-			dialogOpen = true;
-		}}
+		on:createFile={openCreateDialog}
 		on:downloadFile={downloadFile}
 	/>
 
@@ -187,10 +190,7 @@
 					unsavedChanges = false;
 				}
 			}}
-			on:createFile={() => {
-				dialogType = 'create';
-				dialogOpen = true;
-			}}
+			on:createFile={openCreateDialog}
 		/>
 		<!-- PASS $currentFile straight into Editor component and let editor component handle it. -->
 		<Resizable.PaneGroup direction="vertical">

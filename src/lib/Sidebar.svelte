@@ -22,7 +22,6 @@
 			dispatch('createFile');
 		}}
 	>
-		<!-- TODO: prevent this dialog if current file has unsaved changes -->
 		<FilePlus class="size-5" />
 	</button>
 
