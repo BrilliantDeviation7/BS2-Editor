@@ -24,6 +24,7 @@
     "@codemirror/commands": "^6.6.2",
     "@codemirror/language": "^6.10.3",
     "@codemirror/view": "^6.34.0",
+    "@fontsource-variable/manrope": "^5.1.0",
     "@lezer/highlight": "^1.2.1",
     "bits-ui": "^0.21.16",
     "buffer": "^6.0.3",
