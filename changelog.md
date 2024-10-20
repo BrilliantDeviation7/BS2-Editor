@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.3.2 - October 20, 2024
+
+### Changes
+
+- Minor style and layout changes
+  - Sidebar
+  - Navbar
+
+### Fixed
+
+- Fixed sidebar scrollbar not resizing on window resize
+  - Removed `shadcn-svelte` Scroll Area component
+- Fixed creating new file would discard unsaved changes without warning
+- Fixed file name wrapping during transition
+- Fixed unable to submit createFile and renameFile dialog with Enter key
+
 ## 0.3.1 - October 19, 2024
 
 ### Changes
