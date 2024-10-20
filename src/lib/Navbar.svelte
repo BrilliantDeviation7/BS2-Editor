@@ -19,11 +19,7 @@
 		about: {
 			title: 'About',
 			description:
-				'The BS2 Editor is maintained by Kevin Zhu and built with Vite + Svelte, Tailwind CSS, and shadcn-svelte. The compilation and flash functionality is based on the open-source Skewax IDE.'
-		},
-		help: {
-			title: 'Help',
-			description: 'To report a bug or request a feature, message brilliantdeviation7 on Discord.'
+				'The BS2 Editor is maintained by Kevin Zhu and built with Vite + Svelte, Tailwind CSS, and shadcn-svelte. The compilation and flash functionality is based on the open-source Skewax IDE. To report a bug or request a feature, message brilliantdeviation7 on Discord.'
 		}
 	};
 </script>
@@ -50,12 +46,11 @@
 						infoDialogOpen = true;
 					}}>About</Menubar.Item
 				>
-				<!-- <Menubar.Item
-					on:click={() => {
-						dialogType = 'help';
-						infoDialogOpen = true;
-					}}>Help</Menubar.Item
-				> -->
+				<Menubar.Item
+					href="https://github.com/BrilliantDeviation7/BS2-Editor"
+					target="_blank"
+					rel="noreferrer">GitHub</Menubar.Item
+				>
 			</Menubar.Content>
 		</Menubar.Menu>
 		<!-- <Menubar.Menu>
