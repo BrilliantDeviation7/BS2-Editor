@@ -151,18 +151,19 @@
 			<Dialog.Title>{dialogs[dialogType].title}</Dialog.Title>
 			<Dialog.Description>{dialogs[dialogType].description}</Dialog.Description>
 		</Dialog.Header>
-		<Input type="text" bind:value={dialogFileNameInput} />
 
-		<!-- Make it so you can press enter using <form> and then on:submit controlled usage -->
-		<!-- https://www.bits-ui.com/docs/components/dialog#controlled-usage -->
-		<Dialog.Footer>
-			<Button
-				on:click={() => {
-					dialogs[dialogType].action(dialogFileNameInput);
-					dialogOpen = false;
-				}}>{dialogs[dialogType].title}</Button
-			>
-		</Dialog.Footer>
+		<form
+			class="grid gap-4"
+			on:submit|preventDefault={() => {
+				dialogs[dialogType].action(dialogFileNameInput);
+				dialogOpen = false;
+			}}
+		>
+			<Input type="text" bind:value={dialogFileNameInput} />
+			<Dialog.Footer>
+				<Button type="submit">{dialogs[dialogType].title}</Button>
+			</Dialog.Footer>
+		</form>
 	</Dialog.Content>
 </Dialog.Root>
 
