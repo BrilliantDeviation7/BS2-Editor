@@ -34,7 +34,10 @@
 	}
 
 	function openCreateDialog() {
-		if (confirm('You have unsaved changes. Create new file without saving this file?')) {
+		if (
+			!unsavedChanges ||
+			confirm('You have unsaved changes. Create new file without saving this file?')
+		) {
 			dialogType = 'create';
 			dialogOpen = true;
 		}
