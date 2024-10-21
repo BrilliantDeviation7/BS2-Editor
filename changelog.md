@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0 - October 21, 2024
+
+### Added
+
+- PWA
+
 ## 0.3.2 - October 20, 2024
 
 ### Changes
