@@ -9,9 +9,6 @@ export default defineConfig({
 		svelte(),
 		VitePWA({
 			registerType: 'autoUpdate',
-			devOptions: {
-				enabled: true
-			},
 			manifest: {
 				name: 'BS2 Editor',
 				short_name: 'Editor',
