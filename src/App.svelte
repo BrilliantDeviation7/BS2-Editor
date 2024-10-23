@@ -4,7 +4,6 @@
 	import './app.css';
 	import svelteLogo from './assets/svelte.svg';
 	import viteLogo from '/vite.svg';
-	import { onMount } from 'svelte';
 	import LineBreakTransformer from './lib/LineBreakTransformer';
 	import Navbar from '$lib/Navbar.svelte';
 	import Sidebar from '$lib/Sidebar.svelte';

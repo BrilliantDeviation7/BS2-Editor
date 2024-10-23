@@ -16,7 +16,7 @@ export default defineConfig({
 				name: 'BS2 Editor',
 				short_name: 'Editor',
 				description: 'Edit PBASIC for BS2',
-				theme_color: '#ffffff',
+				theme_color: '#5b21b6',
 				icons: [
 					{
 						src: 'pwa-64x64.png',
