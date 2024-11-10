@@ -89,33 +89,42 @@
 			<Menubar.Content>
 				<Menubar.Item
 					on:click={() => {
-						dispatch('createFile');
+						dispatch('untitledFile');
 					}}
 				>
-					New File
-					<Menubar.Shortcut>⌘T</Menubar.Shortcut>
+					New Untitled File
 				</Menubar.Item>
 				<Menubar.Item
 					on:click={() => {
-						dispatch('saveFile');
-					}}>Save</Menubar.Item
+						dispatch('createFile');
+					}}
 				>
+					New File...
+					<Menubar.Shortcut>Ctrl+Alt+N</Menubar.Shortcut>
+				</Menubar.Item>
+				<Menubar.Separator />
 				<Menubar.Item
 					on:click={() => {
-						dispatch('downloadFile');
-					}}>Download</Menubar.Item
+						dispatch('openDirectory');
+					}}
 				>
+					Open Folder...
+					<Menubar.Shortcut>Ctrl+O</Menubar.Shortcut>
+				</Menubar.Item>
+				<Menubar.Separator />
 				<Menubar.Item
 					on:click={() => {
-						dispatch('renameFile');
-					}}>Rename File</Menubar.Item
+						dispatch('save');
+					}}
 				>
+					Save
+					<Menubar.Shortcut>Ctrl+S</Menubar.Shortcut>
+				</Menubar.Item>
 				<Menubar.Item
 					on:click={() => {
-						dispatch('deleteFile');
-					}}>Delete File</Menubar.Item
+						dispatch('saveAs');
+					}}>Save As...</Menubar.Item
 				>
-				<!-- <Menubar.Separator /> -->
 				<!-- <Menubar.Sub>
 					<Menubar.SubTrigger>Examples</Menubar.SubTrigger>
 					<Menubar.SubContent>

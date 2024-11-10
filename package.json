@@ -26,6 +26,7 @@
   "dependencies": {
     "@codemirror/commands": "^6.6.2",
     "@codemirror/language": "^6.10.3",
+    "@codemirror/state": "^6.4.1",
     "@codemirror/view": "^6.34.0",
     "@fontsource-variable/manrope": "^5.1.0",
     "@fontsource/dm-mono": "^5.1.0",
@@ -33,7 +34,6 @@
     "buffer": "^6.0.3",
     "clsx": "^2.1.1",
     "codemirror": "^6.0.1",
-    "dexie": "^4.0.8",
     "hotkeys-js": "^3.13.7",
     "mode-watcher": "^0.4.1",
     "pbasic-tokenizer": "^0.3.0",
