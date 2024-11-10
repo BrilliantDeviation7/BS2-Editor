@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.1 - November 10, 2024
+
+### Fixed
+
+- Creating named or untitled file discards unsaved changes without confirmation
+
 ## 0.5.0 - November 10, 2024
 
 ### Changes
