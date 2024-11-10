@@ -59,19 +59,17 @@
 						on:click={() => {
 							dispatch('openFile', { fileHandle });
 						}}
-						class="w-full p-2 text-left text-sm transition-colors duration-100 hover:bg-stone-100 dark:hover:bg-[#2a2d2e] {currentFileHandle?.name ===
+						class="w-full overflow-hidden text-ellipsis p-2 pr-6 text-left text-sm transition-colors duration-100 {currentFileHandle?.name ===
 						fileHandle.name
 							? 'bg-stone-200 dark:bg-[#3d3f42]'
-							: ''}"
+							: 'hover:bg-stone-100 dark:hover:bg-[#2a2d2e]'}"
 					>
 						{fileHandle.name +
 							($unsavedChanges && currentFileHandle?.name === fileHandle.name ? '*' : '')}
 					</button>
 
 					<DropdownMenu.Root>
-						<DropdownMenu.Trigger
-							class="absolute right-1 top-2 rounded-sm border p-0.5 hover:bg-accent"
-						>
+						<DropdownMenu.Trigger class="absolute right-1 top-2 rounded-sm p-0.5 hover:bg-accent">
 							<EllipsisVertical class="size-4" />
 						</DropdownMenu.Trigger>
 						<DropdownMenu.Content>
