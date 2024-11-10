@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.5.0 - November 10, 2024
+
+### Changes
+
+- Replaced `IndexedDB` with `File System Access API`
+- Added hotkeys for file actions
+
+### Fixed
+
+- Syntax highlighting disappears after switching between files
+
 ## 0.4.0 - October 21, 2024
 
 ### Added
