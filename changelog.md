@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.2 - November 10, 2024
+
+### Changes
+
+- Improved Sidebar file list styling
+  - More consistent hover effect
+  - Removed border from dropdown menu trigger
+
 ## 0.5.1 - November 10, 2024
 
 ### Fixed
