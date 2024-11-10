@@ -26,6 +26,14 @@
 	const acceptedFileExtension = '.bs2';
 
 	async function createFile(contents, openAfter = true) {
+		if (
+			openAfter &&
+			$unsavedChanges &&
+			!confirm('You have unsaved changes in this file. Discard these changes?')
+		) {
+			return;
+		}
+
 		const options = {
 			id: 'openText',
 			startIn: directoryHandle,
@@ -205,6 +213,13 @@
 <div class="flex h-screen flex-col gap-3 p-3">
 	<Navbar
 		on:untitledFile={() => {
+			if (
+				$unsavedChanges &&
+				!confirm('You have unsaved changes in this file. Discard these changes?')
+			) {
+				return;
+			}
+
 			$unsavedChanges = false;
 			currentFileHandle = null;
 			$currentFileName = 'untitled';
