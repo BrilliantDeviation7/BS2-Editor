@@ -23,29 +23,9 @@
 		$accessControl = 2;
 	}
 
-	import hotkeys from 'hotkeys-js';
+	import hotkeys from '$lib/hotkeysFilter';
 
 	onMount(() => {
-		// TODO: set filter in separate JS file and import it in components that need hotkeys
-		hotkeys.filter = (event) => {
-			const target = event.target || event.srcElement;
-			const { tagName } = target;
-
-			if (target.classList.contains('cm-content')) {
-				return true;
-			}
-
-			if (
-				target.isContentEditable ||
-				((tagName === 'INPUT' || tagName === 'TEXTAREA' || tagName === 'SELECT') &&
-					!target.readOnly)
-			) {
-				return false;
-			}
-
-			return true;
-		};
-
 		hotkeys('ctrl+r', () => {
 			beginCompile();
 			return false;

@@ -12,105 +12,76 @@
 
 	let port = null;
 
-	import { db } from '$lib/db';
-	import { liveQuery } from 'dexie';
-	import { createEventDispatcher } from 'svelte';
+	import { onMount } from 'svelte';
 
-	import { toast } from 'svelte-sonner';
+	let directoryHandle;
+	let currentFileHandle = null;
+	let renameTargetFileHandle = null;
 
-	let currentFileId = null;
-	let unsavedChanges = false;
-
-	import { code } from '$lib/stores';
+	import { code, unsavedChanges, currentFileName } from '$lib/stores';
 
 	const defaultContent = "'{$STAMP BS2}\n'{$PBASIC 2.5}\n\n";
+	$code = defaultContent;
 
-	$: currentFile = currentFileId ? liveQuery(() => db.files.get(currentFileId)) : null;
-	$: if ($currentFile) {
-		$code = $currentFile.content;
-	} else {
-		$code = defaultContent;
-	}
+	const acceptedFileExtension = '.bs2';
 
-	function openCreateDialog() {
-		if (
-			!unsavedChanges ||
-			confirm('You have unsaved changes. Create new file without saving this file?')
-		) {
-			dialogType = 'create';
-			dialogOpen = true;
+	async function createFile(contents, openAfter = true) {
+		const options = {
+			id: 'openText',
+			startIn: directoryHandle,
+			suggestedName: 'untitled',
+			types: [
+				{
+					accept: {
+						'text/plain': [acceptedFileExtension, '.txt']
+					}
+				}
+			]
+		};
+
+		const handle = await window.showSaveFilePicker(options);
+
+		if (contents) {
+			await writeFile(handle, contents);
+		} else {
+			await writeFile(handle, defaultContent);
 		}
-	}
 
-	async function createFile(name) {
-		if (name.length < 1) {
-			toast.error('File name cannot be empty!');
-			return;
+		if (openAfter) {
+			openFile(handle);
 		}
 
-		try {
-			const id = await db.files.add({
-				name,
-				content: defaultContent
-			});
-			currentFileId = id;
-			toast.success(`Successfully created ${name}.bs2`);
-		} catch (error) {
-			console.log(error);
-			if (error.name === 'ConstraintError') {
-				toast.error('A file with the same name already exists!');
-			}
-		}
+		refreshDirectory();
 	}
 
 	async function saveFile() {
-		if (currentFileId && $currentFile) {
-			await db.files.update($currentFile.id, {
-				content: editor.state.doc.toString()
-			});
-
-			toast.success('File saved successfully!');
-			unsavedChanges = false;
+		if (currentFileHandle) {
+			writeFile(currentFileHandle, editor.state.doc.toString());
+			$unsavedChanges = false;
+		} else {
+			createFile(editor.state.doc.toString());
 		}
+	}
+
+	function validFileName(str) {
+		return /^[a-zA-Z0-9_-]+$/.test(str);
 	}
 
 	async function renameFile(name) {
-		if (currentFileId && $currentFile) {
-			const content = editor.state.doc.toString();
-
-			await db.files.update($currentFile.id, {
-				name,
-				content
-			});
-		}
+		await renameTargetFileHandle.move(name + acceptedFileExtension);
+		refreshDirectory();
+		$currentFileName = currentFileHandle.name;
 	}
 
-	async function deleteFile() {
-		if (currentFileId && $currentFile) {
-			if (confirm('Delete this file? This action cannot be undone.')) {
-				await db.files.delete(currentFileId);
-				currentFileId = null;
-				unsavedChanges = false;
-			}
-		} else {
-			toast.warning('No file selected!');
+	async function deleteFile(event) {
+		if (confirm('This action cannot be undone. Delete this file?')) {
+			await event.detail.fileHandle.remove();
+			refreshDirectory();
+			$unsavedChanges = false;
+			currentFileHandle = null;
+			$currentFileName = 'untitled';
+			editor.setState(EditorState.create({ doc: defaultContent, extensions }));
 		}
-	}
-
-	async function downloadFile() {
-		const content = editor.state.doc.toString();
-
-		const blob = new Blob([content], { type: 'text/plain' });
-
-		const a = document.createElement('a');
-
-		a.href = URL.createObjectURL(blob);
-
-		a.download = $currentFile?.name ? $currentFile.name + '.bs2' : 'untitled.bs2';
-
-		document.body.appendChild(a);
-		a.click();
-		a.remove();
 	}
 
 	let editor = null;
@@ -128,17 +99,74 @@
 	let dialogType = 'create';
 
 	let dialogs = {
-		create: {
-			title: 'Create a new file',
-			description: 'Only alphanumeric characters, underscores, and hyphens are allowed.',
-			action: createFile
-		},
 		rename: {
 			title: 'Rename file',
 			description: 'Only alphanumeric characters, underscores, and hyphens are allowed.',
 			action: renameFile
 		}
 	};
+
+	// TODO: https://developer.chrome.com/docs/capabilities/web-apis/file-system-access#storing_file_handles_or_directory_handles_in_indexeddb
+
+	async function openFile(handle) {
+		const file = await handle.getFile();
+		const contents = await file.text();
+		currentFileHandle = handle;
+		editor.setState(EditorState.create({ doc: contents, extensions }));
+		$unsavedChanges = false;
+		$currentFileName = handle.name;
+		$code = contents;
+	}
+
+	async function writeFile(fileHandle, contents) {
+		const writable = await fileHandle.createWritable();
+		await writable.write(contents);
+		await writable.close();
+	}
+
+	let fileHandles = [];
+
+	async function openDirectory() {
+		directoryHandle = await window.showDirectoryPicker({
+			mode: 'readwrite'
+		});
+	}
+
+	async function refreshDirectory() {
+		if (!directoryHandle) return;
+
+		let newFileHandles = [];
+		for await (const entry of directoryHandle.values()) {
+			if (entry.kind === 'file' && entry.name.endsWith(acceptedFileExtension)) {
+				newFileHandles.push(entry);
+			}
+		}
+		fileHandles = newFileHandles;
+	}
+
+	$: if (directoryHandle) {
+		refreshDirectory();
+	}
+
+	import { extensions } from '$lib/editor/extensions';
+	import { EditorState } from '@codemirror/state';
+
+	import hotkeys from '$lib/hotkeysFilter';
+
+	onMount(() => {
+		hotkeys('ctrl+alt+n', () => {
+			createFile();
+			return false;
+		});
+		hotkeys('ctrl+o', () => {
+			openDirectory();
+			return false;
+		});
+		hotkeys('ctrl+s', () => {
+			saveFile();
+			return false;
+		});
+	});
 </script>
 
 <ModeWatcher />
@@ -158,9 +186,17 @@
 				dialogOpen = false;
 			}}
 		>
-			<Input type="text" bind:value={dialogFileNameInput} />
+			<div class="relative">
+				<Input type="text" bind:value={dialogFileNameInput} />
+				<p class="absolute right-3 top-2 select-none font-bold opacity-75">
+					{acceptedFileExtension}
+				</p>
+			</div>
+
 			<Dialog.Footer>
-				<Button type="submit">{dialogs[dialogType].title}</Button>
+				<Button type="submit" disabled={!validFileName(dialogFileNameInput)}
+					>{dialogs[dialogType].title}</Button
+				>
 			</Dialog.Footer>
 		</form>
 	</Dialog.Content>
@@ -168,50 +204,57 @@
 
 <div class="flex h-screen flex-col gap-3 p-3">
 	<Navbar
-		on:saveFile={saveFile}
-		on:renameFile={() => {
-			dialogType = 'rename';
-			dialogOpen = true;
+		on:untitledFile={() => {
+			$unsavedChanges = false;
+			currentFileHandle = null;
+			$currentFileName = 'untitled';
+			editor.setState(EditorState.create({ doc: defaultContent, extensions }));
+			$code = defaultContent;
 		}}
-		on:deleteFile={deleteFile}
-		on:createFile={openCreateDialog}
-		on:downloadFile={downloadFile}
+		on:createFile={() => {
+			createFile();
+		}}
+		on:openDirectory={openDirectory}
+		on:save={saveFile}
+		on:saveAs={() => {
+			createFile(editor.state.doc.toString(), false);
+		}}
 	/>
 
 	<main class="flex min-h-0 grow gap-3">
 		<Sidebar
-			{unsavedChanges}
-			{currentFileId}
-			on:openFile={(event) => {
-				if (!unsavedChanges) {
-					currentFileId = event.detail.id;
+			{currentFileHandle}
+			{directoryHandle}
+			{fileHandles}
+			on:openDirectory={openDirectory}
+			on:refreshDirectory={refreshDirectory}
+			on:openFile={async (event) => {
+				const fileHandle = event.detail.fileHandle;
+				if (!$unsavedChanges) {
+					openFile(fileHandle);
 				} else if (
-					currentFileId !== event.detail.id &&
+					(!currentFileHandle || currentFileHandle.name !== fileHandle.name) &&
 					confirm('You have unsaved changes in this file. Discard these changes?')
 				) {
-					currentFileId = event.detail.id;
-					unsavedChanges = false;
+					openFile(fileHandle);
 				}
 			}}
-			on:createFile={openCreateDialog}
+			on:createFile={() => {
+				createFile();
+			}}
+			on:delete={deleteFile}
+			on:rename={(event) => {
+				renameTargetFileHandle = event.detail.fileHandle;
+				dialogType = 'rename';
+				dialogOpen = true;
+			}}
 		/>
-		<!-- PASS $currentFile straight into Editor component and let editor component handle it. -->
 		<Resizable.PaneGroup direction="vertical">
-			<Resizable.Pane class="min-h-32">
-				{#key $currentFile}
-					<Editor
-						fileName={$currentFile?.name}
-						content={$currentFile?.content}
-						bind:editor
-						on:docChanged={() => {
-							unsavedChanges = true;
-							$code = editor.state.doc.toString();
-						}}
-					/>
-				{/key}
+			<Resizable.Pane minSize={20}>
+				<Editor content={defaultContent} bind:editor />
 			</Resizable.Pane>
 			<Resizable.Handle withHandle class="my-2" />
-			<Resizable.Pane class="flex min-h-32 flex-col md:min-h-20" defaultSize={10}>
+			<Resizable.Pane class="flex flex-col" defaultSize={15} minSize={10}>
 				<Board />
 			</Resizable.Pane>
 		</Resizable.PaneGroup>
