@@ -78,6 +78,7 @@
 	async function renameFile(name) {
 		await renameTargetFileHandle.move(name + acceptedFileExtension);
 		refreshDirectory();
+		currentFileHandle = renameTargetFileHandle;
 		$currentFileName = currentFileHandle.name;
 	}
 
