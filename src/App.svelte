@@ -146,7 +146,12 @@
 
 		let newFileHandles = [];
 		for await (const entry of directoryHandle.values()) {
-			if (entry.kind === 'file' && entry.name.endsWith(acceptedFileExtension)) {
+			if (
+				entry.kind === 'file' &&
+				(entry.name.endsWith(acceptedFileExtension) ||
+					entry.name.endsWith('.txt') ||
+					!entry.name.includes('.'))
+			) {
 				newFileHandles.push(entry);
 			}
 		}
