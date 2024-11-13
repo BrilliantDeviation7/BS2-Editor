@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.5.3 - November 13, 2024
+
+### Fixed
+
+- Renaming a file more than once consecutively not updating file handle/label
+
+### Changes
+
+- .txt and files without extensions are now shown in the file list
+
 ## 0.5.2 - November 10, 2024
 
 ### Changes

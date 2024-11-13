@@ -38,7 +38,7 @@
 <nav class="flex gap-2">
 	<Menubar.Root class="grow">
 		<Menubar.Menu>
-			<Menubar.Trigger class="font-bold italic tabular-nums">BS2 Editor v0.5.2</Menubar.Trigger>
+			<Menubar.Trigger class="font-bold italic tabular-nums">BS2 Editor v0.5.3</Menubar.Trigger>
 			<Menubar.Content>
 				<Menubar.Item
 					on:click={() => {
