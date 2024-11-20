@@ -20,6 +20,8 @@
 
 	import { code, unsavedChanges, currentFileName } from '$lib/stores';
 
+	import { examples } from '$lib/examples';
+
 	const defaultContent = "'{$STAMP BS2}\n'{$PBASIC 2.5}\n\n";
 	$code = defaultContent;
 
@@ -239,6 +241,22 @@
 		on:save={saveFile}
 		on:saveAs={() => {
 			createFile(editor.state.doc.toString(), false);
+		}}
+		on:exampleFile={(event) => {
+			if (
+				$unsavedChanges &&
+				!confirm('You have unsaved changes in this file. Discard these changes?')
+			) {
+				return;
+			}
+
+			$unsavedChanges = false;
+			currentFileHandle = null;
+			$currentFileName = event.detail.file;
+
+			const content = examples[event.detail.category][event.detail.file];
+			editor.setState(EditorState.create({ doc: content, extensions }));
+			$code = content;
 		}}
 	/>
 

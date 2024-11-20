@@ -22,9 +22,9 @@
 				'The BS2 Editor is maintained by Kevin Zhu and built with Vite + Svelte, Tailwind CSS, and shadcn-svelte. The compilation and flash functionality is based on the open-source Skewax IDE. To report a bug or request a feature, message brilliantdeviation7 on Discord.'
 		}
 	};
-</script>
 
-<!-- TODO: add EXAMPLES tab which creates TEMPORARY example file (but still allows you to upload the program) -->
+	import { examples } from '$lib/examples';
+</script>
 
 <Dialog.Root bind:open={infoDialogOpen}>
 	<Dialog.Content>
@@ -53,37 +53,6 @@
 				>
 			</Menubar.Content>
 		</Menubar.Menu>
-		<!-- <Menubar.Menu>
-			<Menubar.Trigger>Board</Menubar.Trigger>
-			<Menubar.Content>
-				<Menubar.Item>
-					Upload to Board
-					<Menubar.Shortcut>⌘R</Menubar.Shortcut>
-				</Menubar.Item>
-				<Menubar.Separator />
-
-				<Menubar.RadioGroup value={selectedBoard}>
-					<Menubar.RadioItem
-						on:click={() => {
-							selectedBoard = 'andy';
-						}}
-						value="andy">Andy</Menubar.RadioItem
-					>
-					<Menubar.RadioItem
-						on:click={() => {
-							selectedBoard = 'benoit';
-						}}
-						value="benoit">Benoit</Menubar.RadioItem
-					>
-					<Menubar.RadioItem
-						on:click={() => {
-							selectedBoard = 'Luis';
-						}}
-						value="Luis">Luis</Menubar.RadioItem
-					>
-				</Menubar.RadioGroup>
-			</Menubar.Content>
-		</Menubar.Menu> -->
 		<Menubar.Menu>
 			<Menubar.Trigger>File</Menubar.Trigger>
 			<Menubar.Content>
@@ -125,29 +94,61 @@
 						dispatch('saveAs');
 					}}>Save As...</Menubar.Item
 				>
-				<!-- <Menubar.Sub>
-					<Menubar.SubTrigger>Examples</Menubar.SubTrigger>
-					<Menubar.SubContent>
-						<Menubar.Item>Example 1</Menubar.Item>
-						<Menubar.Item>Example 2</Menubar.Item>
-					</Menubar.SubContent>
-				</Menubar.Sub> -->
 			</Menubar.Content>
 		</Menubar.Menu>
-		<!-- <Menubar.Menu>
-			<Menubar.Trigger>Edit</Menubar.Trigger>
+		<Menubar.Menu>
+			<Menubar.Trigger>Examples</Menubar.Trigger>
 			<Menubar.Content>
-				<Menubar.Item>Format</Menubar.Item>
 				<Menubar.Sub>
-					<Menubar.SubTrigger>Snippets</Menubar.SubTrigger>
+					<Menubar.SubTrigger>Control</Menubar.SubTrigger>
 					<Menubar.SubContent>
-						<Menubar.Item>IF...THEN...ELSE</Menubar.Item>
-						<Menubar.Item>DO LOOP</Menubar.Item>
-						<Menubar.Item>FOR _ = _ to _ ... NEXT</Menubar.Item>
+						{#each Object.keys(examples.control) as file}
+							<Menubar.Item
+								on:click={() => {
+									dispatch('exampleFile', { category: 'control', file });
+								}}>{file}</Menubar.Item
+							>
+						{/each}
+					</Menubar.SubContent>
+				</Menubar.Sub>
+				<Menubar.Sub>
+					<Menubar.SubTrigger>Data & I/O</Menubar.SubTrigger>
+					<Menubar.SubContent>
+						{#each Object.keys(examples.data) as file}
+							<Menubar.Item
+								on:click={() => {
+									dispatch('exampleFile', { category: 'data', file });
+								}}>{file}</Menubar.Item
+							>
+						{/each}
+					</Menubar.SubContent>
+				</Menubar.Sub>
+				<Menubar.Sub>
+					<Menubar.SubTrigger>BS2</Menubar.SubTrigger>
+					<Menubar.SubContent>
+						{#each Object.keys(examples.bs2) as file}
+							<Menubar.Item
+								on:click={() => {
+									dispatch('exampleFile', { category: 'bs2', file });
+								}}>{file}</Menubar.Item
+							>
+						{/each}
+					</Menubar.SubContent>
+				</Menubar.Sub>
+				<Menubar.Sub>
+					<Menubar.SubTrigger>Other</Menubar.SubTrigger>
+					<Menubar.SubContent>
+						{#each Object.keys(examples.other) as file}
+							<Menubar.Item
+								on:click={() => {
+									dispatch('exampleFile', { category: 'other', file });
+								}}>{file}</Menubar.Item
+							>
+						{/each}
 					</Menubar.SubContent>
 				</Menubar.Sub>
 			</Menubar.Content>
-		</Menubar.Menu> -->
+		</Menubar.Menu>
 	</Menubar.Root>
 	<Button on:click={toggleMode} variant="outline" size="icon">
 		<Sun
