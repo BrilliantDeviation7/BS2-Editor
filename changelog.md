@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.0 - November 20, 2024
+
+### Added
+
+- Autocompleted snippets
+- Examples
+- Copy All Files for submitting class activities
+
 ## 0.5.3 - November 13, 2024
 
 ### Fixed
