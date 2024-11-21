@@ -6,6 +6,7 @@
 	import { toggleMode } from 'mode-watcher';
 	import Sun from 'lucide-svelte/icons/sun';
 	import Moon from 'lucide-svelte/icons/moon';
+	import ClipboardCopy from 'lucide-svelte/icons/clipboard-copy';
 
 	let selectedBoard = '';
 
@@ -94,6 +95,17 @@
 						dispatch('saveAs');
 					}}>Save As...</Menubar.Item
 				>
+				<Menubar.Separator />
+				<Menubar.Item
+					on:click={() => {
+						dispatch('copyFiles');
+					}}
+				>
+					Copy All Files
+					<Menubar.Shortcut>
+						<ClipboardCopy />
+					</Menubar.Shortcut>
+				</Menubar.Item>
 			</Menubar.Content>
 		</Menubar.Menu>
 		<Menubar.Menu>
