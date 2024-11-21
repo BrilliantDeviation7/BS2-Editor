@@ -258,6 +258,33 @@
 			editor.setState(EditorState.create({ doc: content, extensions }));
 			$code = content;
 		}}
+		on:copyFiles={async () => {
+			if (!directoryHandle) return;
+
+			let text = '';
+			let html = '';
+
+			for await (const entry of directoryHandle.values()) {
+				if (
+					entry.kind === 'file' &&
+					(entry.name.endsWith(acceptedFileExtension) ||
+						entry.name.endsWith('.txt') ||
+						!entry.name.includes('.'))
+				) {
+					const file = await entry.getFile();
+					const content = (await file.text()).trim();
+
+					text += `*** ${file.name} ***\n\n${content}\n\n`;
+					html += `<h2 style="color: green;"><b>${file.name}</b></h2><code style="white-space: pre;color: black;">${content}</code>`;
+				}
+			}
+
+			const clipboardItem = new ClipboardItem({
+				'text/html': new Blob([html], { type: 'text/html' }),
+				'text/plain': new Blob([text], { type: 'text/plain' })
+			});
+			await navigator.clipboard.write([clipboardItem]);
+		}}
 	/>
 
 	<main class="flex min-h-0 grow gap-3">
