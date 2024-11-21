@@ -61,6 +61,7 @@ let theme = EditorView.theme(
 			width: '100%',
 			maxWidth: '100%',
 			height: '100%',
+			color: '#ffffff',
 			backgroundColor: '#1f1f1f'
 		},
 		'.cm-selectionBackground, ::selection': {
