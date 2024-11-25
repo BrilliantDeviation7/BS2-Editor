@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.1 - November 25, 2024
+
+### Fixed
+
+- Vite bundling thousands of unused `lucide-svelte` icons
+- Editor font color in light mode
+- Deploy error
+
 ## 0.6.0 - November 20, 2024
 
 ### Added
