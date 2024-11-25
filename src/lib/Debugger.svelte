@@ -1,7 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
 
-	import { Play, Pause, Power, ArrowDownToDot } from 'lucide-svelte';
+	import Power from 'lucide-svelte/icons/power';
+	import ArrowDownToDot from 'lucide-svelte/icons/arrow-down-to-dot';
 	import { Button } from '$lib/components/ui/button';
 	import * as Tooltip from '$lib/components/ui/tooltip';
 	import { toast } from 'svelte-sonner';

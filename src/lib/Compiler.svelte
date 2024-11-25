@@ -1,7 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
 
-	import { Cog, ArrowUpToLine } from 'lucide-svelte';
+	import Cog from 'lucide-svelte/icons/cog';
+	import ArrowUpToLine from 'lucide-svelte/icons/arrow-up-to-line';
 	import { Button } from '$lib/components/ui/button';
 	import { toast } from 'svelte-sonner';
 

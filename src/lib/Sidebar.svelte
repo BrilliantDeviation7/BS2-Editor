@@ -1,5 +1,8 @@
 <script>
-	import { FolderInput, FolderSync, FilePlus, EllipsisVertical } from 'lucide-svelte';
+	import FolderInput from 'lucide-svelte/icons/folder-input';
+	import FolderSync from 'lucide-svelte/icons/folder-sync';
+	import FilePlus from 'lucide-svelte/icons/file-plus';
+	import EllipsisVertical from 'lucide-svelte/icons/ellipsis-vertical';
 	import { Separator } from '$lib/components/ui/separator';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { Button } from '$lib/components/ui/button';
