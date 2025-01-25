@@ -1,6 +1,8 @@
 import { basicSetup } from 'codemirror';
-import { EditorView, keymap } from '@codemirror/view';
+import { EditorView, keymap, Decoration } from '@codemirror/view';
+import { StateField, StateEffect } from '@codemirror/state';
 import { indentWithTab } from '@codemirror/commands';
+import { SearchCursor } from '@codemirror/search';
 
 import { code, unsavedChanges } from '$lib/stores';
 
@@ -113,6 +115,60 @@ const customHighlightStyle = HighlightStyle.define([
 	{ tag: tags.string, color: '#ce9178' }
 ]);
 
+const highlight_effect = StateEffect.define();
+const clear_highlights_effect = StateEffect.define();
+
+const highlight_extension = StateField.define({
+	create() {
+		return Decoration.none; // Start with no decorations
+	},
+	update(highlights, transaction) {
+		let newHighlights = highlights;
+
+		// First, check for and apply the clear_highlights_effect
+		for (let effect of transaction.effects) {
+			if (effect.is(clear_highlights_effect)) {
+				newHighlights = Decoration.none; // Reset all decorations
+			}
+		}
+
+		// Then, check for and apply the highlight_effect
+		for (let effect of transaction.effects) {
+			if (effect.is(highlight_effect)) {
+				newHighlights = newHighlights.update({ add: effect.value, sort: true });
+			}
+		}
+
+		// Map decorations to match document changes (e.g., edits)
+		return newHighlights.map(transaction.changes);
+	},
+	provide: (f) => EditorView.decorations.from(f)
+});
+
+export function clearError(editor) {
+	editor.dispatch({
+		effects: [
+			// Clear existing highlights
+			clear_highlights_effect.of()
+		]
+	});
+}
+
+export function highlightError(editor, start, end) {
+	const highlight_decoration = Decoration.mark({
+		attributes: { style: 'background-color: red' }
+	});
+
+	editor.dispatch({
+		effects: [
+			// Clear existing highlights
+			clear_highlights_effect.of(),
+			// Add the new highlight
+			highlight_effect.of([highlight_decoration.range(start, end)])
+		]
+	});
+}
+
 export const extensions = [
 	basicSetup,
 	keymap.of([indentWithTab]),
@@ -124,9 +180,16 @@ export const extensions = [
 		if (update.docChanged) {
 			unsavedChanges.set(true);
 			code.set(update.state.doc.toString());
+			update.view.dispatch({
+				effects: [
+					// Clear existing highlights
+					clear_highlights_effect.of()
+				]
+			});
 		}
 	}),
 	autocompletion({
 		override: [customCompletions]
-	})
+	}),
+	highlight_extension
 ];

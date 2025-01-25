@@ -183,6 +183,11 @@
 			return false;
 		});
 	});
+
+	import { highlightError } from '$lib/editor/extensions';
+	function handleHighlightError(start, length) {
+		highlightError(editor, start, start + length);
+	}
 </script>
 
 <ModeWatcher />
@@ -321,7 +326,7 @@
 			</Resizable.Pane>
 			<Resizable.Handle withHandle class="my-2" />
 			<Resizable.Pane class="flex flex-col" defaultSize={15} minSize={10}>
-				<Board />
+				<Board highlightError={handleHighlightError} />
 			</Resizable.Pane>
 		</Resizable.PaneGroup>
 	</main>

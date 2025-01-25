@@ -1,6 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
 
+	export let highlightError;
+
 	import Cog from 'lucide-svelte/icons/cog';
 	import ArrowUpToLine from 'lucide-svelte/icons/arrow-up-to-line';
 	import { Button } from '$lib/components/ui/button';
@@ -60,6 +62,7 @@
 				$accessControl = 0;
 			});
 		} else {
+			highlightError(compiled.ErrorStart, compiled.ErrorLength);
 			toast.error(`Error: ${compiled.Error.message}`);
 			$accessControl = 0;
 		}

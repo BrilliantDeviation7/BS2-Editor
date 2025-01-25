@@ -4,6 +4,8 @@
 	import Compiler from './Compiler.svelte';
 	import Debugger from './Debugger.svelte';
 
+	export let highlightError;
+
 	let serial;
 	let port = null;
 
@@ -115,7 +117,7 @@
 	{#if port}
 		<div class="flex gap-1 md:absolute">
 			<Button variant="destructive" class="select-none" on:click={disconnect}>Disconnect</Button>
-			<Compiler bind:port />
+			<Compiler bind:port {highlightError} />
 		</div>
 
 		<Debugger bind:port />
