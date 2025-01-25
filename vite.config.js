@@ -52,7 +52,10 @@ export default defineConfig({
 			'@lezer/highlight',
 			'@codemirror/language',
 			'@codemirror/view',
-			'@codemirror/commands'
+			'@codemirror/commands',
+			'@codemirror/state',
+			'@codemirror/search',
+			'@codemirror/autocomplete'
 		]
 	}
 });
