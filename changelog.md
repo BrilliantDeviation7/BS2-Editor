@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.0 - January 24, 2024
+
+### Added
+
+- Error highlighting
+
 ## 0.6.1 - November 25, 2024
 
 ### Fixed
